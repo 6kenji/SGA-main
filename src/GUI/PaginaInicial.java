@@ -9,6 +9,7 @@ import Controladores.ControlaAluno;
 import EstruturaDeDados.ListaLigada;
 import Objecto.Aluno;
 import static GUI.Operacoes.CriarAluno.gravarDados;
+import Tabela.TableModelAlunos;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -67,7 +68,11 @@ public class PaginaInicial extends javax.swing.JFrame {
         btGravar = new javax.swing.JButton();
         pnEliminar = new javax.swing.JPanel();
         pnListagem = new javax.swing.JPanel();
+        dialogOne = new javax.swing.JOptionPane();
         pnAlteraDados = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelaDados = new javax.swing.JTable();
+        btGravarDadosTabela = new javax.swing.JButton();
         pnBuscar = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -319,7 +324,7 @@ public class PaginaInicial extends javax.swing.JFrame {
         );
         pnEliminarLayout.setVerticalGroup(
             pnEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 356, Short.MAX_VALUE)
+            .addGap(0, 382, Short.MAX_VALUE)
         );
 
         pnPrincipalPane.addTab("ELIMINAR ALUNO", pnEliminar);
@@ -331,27 +336,62 @@ public class PaginaInicial extends javax.swing.JFrame {
         pnListagem.setLayout(pnListagemLayout);
         pnListagemLayout.setHorizontalGroup(
             pnListagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 731, Short.MAX_VALUE)
+            .addGroup(pnListagemLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dialogOne, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(506, Short.MAX_VALUE))
         );
         pnListagemLayout.setVerticalGroup(
             pnListagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 356, Short.MAX_VALUE)
+            .addGroup(pnListagemLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dialogOne, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(256, Short.MAX_VALUE))
         );
+
+        dialogOne.showInputDialog(null,"1 - Todos alunos" + "\n" +"2 - Mesmo nome"+"\n"+"3 - Ordem alfabetica");
 
         pnPrincipalPane.addTab("LISTAR ALUNOS", pnListagem);
 
         pnAlteraDados.setBackground(new java.awt.Color(51, 51, 51));
         pnAlteraDados.setForeground(new java.awt.Color(0, 204, 51));
 
+        jScrollPane1.setBackground(new java.awt.Color(51, 51, 51));
+        jScrollPane1.setForeground(new java.awt.Color(0, 204, 51));
+
+        tabelaDados.setBackground(new java.awt.Color(51, 51, 51));
+        tabelaDados.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        tabelaDados.setForeground(new java.awt.Color(0, 204, 51));
+        tabelaDados.setAutoscrolls(false);
+        tabelaDados.setColumnSelectionAllowed(true);
+        tabelaDados.setGridColor(new java.awt.Color(0, 204, 51));
+        tabelaDados.setSelectionForeground(new java.awt.Color(51, 51, 51));
+        jScrollPane1.setViewportView(tabelaDados);
+        tabelaDados.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        btGravarDadosTabela.setBackground(new java.awt.Color(51, 51, 51));
+        btGravarDadosTabela.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btGravarDadosTabela.setForeground(new java.awt.Color(0, 204, 51));
+        btGravarDadosTabela.setText("Gravar");
+
         javax.swing.GroupLayout pnAlteraDadosLayout = new javax.swing.GroupLayout(pnAlteraDados);
         pnAlteraDados.setLayout(pnAlteraDadosLayout);
         pnAlteraDadosLayout.setHorizontalGroup(
             pnAlteraDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 731, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnAlteraDadosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btGravarDadosTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(292, 292, 292))
         );
         pnAlteraDadosLayout.setVerticalGroup(
             pnAlteraDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 356, Short.MAX_VALUE)
+            .addGroup(pnAlteraDadosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btGravarDadosTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pnPrincipalPane.addTab("ALTERAR DADOS DE ALUNOS", pnAlteraDados);
@@ -367,7 +407,7 @@ public class PaginaInicial extends javax.swing.JFrame {
         );
         pnBuscarLayout.setVerticalGroup(
             pnBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 356, Short.MAX_VALUE)
+            .addGap(0, 382, Short.MAX_VALUE)
         );
 
         pnPrincipalPane.addTab("BUSCAR DADOS DE ALUNO", pnBuscar);
@@ -392,8 +432,7 @@ public class PaginaInicial extends javax.swing.JFrame {
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
         // TODO add your handling code here:
-        this.txApelido.setText(" "
-                + "");
+        this.txApelido.setText("");
         this.txNome.setText(" ");
         this.txID.setText(a.getId().toString());
         
@@ -409,8 +448,6 @@ public class PaginaInicial extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(null, "Todos campos devem ser preenchidos. ");
 
             }else{
-                Date dataHoje = new Date();
-                DateFormat formatarDataHoje =  new SimpleDateFormat("dd / MM / yyyy");
                 var Id = UUID.fromString(txID.getText());
                 
                 a.setNome(txNome.getText());
@@ -465,7 +502,8 @@ public class PaginaInicial extends javax.swing.JFrame {
     }  
     
     private void myInitComp(){
-        
+        tableModel = new TableModelAlunos();
+        this.tabelaDados.setModel(tableModel);
         txID.setText(String.valueOf(a.getId()));
         this.btgCenas = new ButtonGroup();
         this.btgCenas.add(rbMasculino);
@@ -473,10 +511,13 @@ public class PaginaInicial extends javax.swing.JFrame {
     }
     
     private ButtonGroup btgCenas;
+    private TableModelAlunos tableModel;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btGravar;
+    private javax.swing.JButton btGravarDadosTabela;
     private javax.swing.JButton btLimpar;
     private javax.swing.JComboBox<String> cbNacionalidades;
+    private javax.swing.JOptionPane dialogOne;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -486,6 +527,7 @@ public class PaginaInicial extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnAlteraDados;
     private javax.swing.JPanel pnBuscar;
     private javax.swing.JPanel pnCadastro;
@@ -494,6 +536,7 @@ public class PaginaInicial extends javax.swing.JFrame {
     private javax.swing.JTabbedPane pnPrincipalPane;
     private javax.swing.JRadioButton rbFemenino;
     private javax.swing.JRadioButton rbMasculino;
+    private javax.swing.JTable tabelaDados;
     private javax.swing.JTextField txApelido;
     private javax.swing.JTextField txID;
     private javax.swing.JTextField txNome;
