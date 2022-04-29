@@ -1,68 +1,45 @@
 package Controladores;
 
-import java.io.File;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
+import java.io.Serializable;
 import EstruturaDeDados.ListaLigada;
 
-public class DadosAlunos 
-{
-public static void gravarArquivoBinario(ListaLigada dados, String ArquivoDados) {
-        
-        File arquivo = new File (ArquivoDados);
-
-        try {
-            
-            arquivo.delete();
-            
-            arquivo.createNewFile();
-            
-            ObjectOutputStream objOutput = new ObjectOutputStream(new FileOutputStream(arquivo));
-            
-            objOutput.writeObject(dados);
-            
-            objOutput.close();
-
-        }catch (IOException erro){
+public class DadosAlunos {
     
-            System.out.printf("Erro: %s", erro.getMessage());
-        
-        }
-    
+    private String filename;
+
+    public DadosAlunos(String filename) {
+        this.filename = filename;
     }
 
-    public static ListaLigada lerArquivoBinario(String ArquivoDados) {
-        
-    	ListaLigada dados = new ListaLigada();
-    
+    @SuppressWarnings("unchecked")
+    public ListaLigada read() {
         try {
-            
-            File arquivo = new File(ArquivoDados);
-        
-            if(arquivo.exists()) {
-            
-                ObjectInputStream objInput = new ObjectInputStream(new FileInputStream(arquivo));
-            
-                dados = (ListaLigada)objInput.readObject();
-            
-                objInput.close();
-            }
-        
-        }catch(IOException erro1) {
-        
-            System.out.printf("Erro: %s", erro1.getMessage());
-        
-        }catch(ClassNotFoundException erro2) {
-            
-            System.out.printf("Erro: %s", erro2.getMessage());
-        
+            ObjectInputStream inputStream = new ObjectInputStream(
+                    new BufferedInputStream(new FileInputStream(filename)));
+            ListaLigada vector = (ListaLigada) inputStream.readObject();
+            inputStream.close();
+            return vector;
+        } catch (IOException | ClassNotFoundException e) {
+            return new ListaLigada ();
         }
-        
-        return(dados);
-    
     }
+
+    public void write(ListaLigada vector) {
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(
+                    new BufferedOutputStream(new FileOutputStream(filename)));
+            outputStream.writeObject(vector);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

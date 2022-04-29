@@ -6,48 +6,80 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 import javax.swing.JOptionPane;
 
 public class ControlaAluno implements Serializable 
 {
+    static final String dados = "alunos.dat";
+    DadosAlunos  dadosAluno;
+    ListaLigada listaAluno;
 
-    DadosAlunos  da = new DadosAlunos();
-    
-    public void criarAluno(ListaLigada ov, Aluno a)
-    {
-        // TODO Auto-generated method stub
-        ov = da.lerArquivoBinario("alunos.dat");
-	ov.adicionaFim(a);
-        da.gravarArquivoBinario(ov,"alunos.dat");
-        JOptionPane.showMessageDialog(null, "Aluno criado com sucesso. ");
-        imprimirTempoActual();
+    public ControlaAluno() {
+        dadosAluno = new DadosAlunos(dados) ;
+        this.load();
     }
-    
-    public void ListarAluno(ListaLigada ov, String nome) 
-    {
-        // TODO Auto-generated method stub
-	JOptionPane.showMessageDialog(null, ov.toString());
+
+    public Aluno addAluno(String nome, String apelido, String nacionalidade, String sexo) {
+        if (this.listaAluno == null)
+            load();
+        Aluno aluno = new Aluno( nome, apelido, nacionalidade, sexo);
+        this.listaAluno.adicionaFim(aluno);
+        this.save();
+        return aluno;
     }
-    
-    public void removerAluno(ListaLigada ov, String nome) 
-    {
-        // TODO Auto-generated method stub
-	for(int i = 0; i<ov.tamanho(); i++) 
-        {
-            if(((Aluno)ov.pega(i)).equals(nome)) 
-            {
-		ov.removePosicao(i);
-            }
-	}
-        JOptionPane.showMessageDialog(null, "Aluno removido com sucesso. ");
+
+    public Aluno updateAluno(String nome, String apelido, String nacionalidade, String sexo, UUID id) {
+        Aluno aux = new Aluno(nome, apelido, nacionalidade, sexo);
+        aux.setId(id);
+        int posicao = listaAluno.getPosicao(aux);
+        Aluno aluno = (Aluno) listaAluno.pega(posicao);
+        if (aluno != null) {
+            if (nome.trim().equals(""))
+                aux.setNome(aluno.getNome());
+            if (apelido.trim().equals(""))
+                aux.setApelido(aluno.getApelido());
+            if (nacionalidade.trim().equals(""))
+                aux.setNacionalidade(aluno.getNacionalidade());
+            if (sexo.trim().equals(""))
+                aux.setSexo(aluno.getSexo());
+            listaAluno.removePosicao(posicao);
+            listaAluno.adicionaPosicao(posicao, aux);
+            this.save();
+            return aux;
+        }
+        return null;
     }
-	
-    public void imprimirTempoActual() 
-    {
-        Date dataHoje = new Date();
+
+    public Aluno[] getAluno() {
+        Aluno[] arrayAluno = new Aluno[this.listaAluno.tamanho()];
+
+        for (int i = 0; i < arrayAluno.length; i++) {
+            arrayAluno[i] = (Aluno) this.listaAluno.pega(i);
+        }
+
+        return arrayAluno;
+    }
+
+    private void load() {
+        this.listaAluno = dadosAluno.read();
+    }
+
+    private void save() {
+        if (this.listaAluno == null)
+            throw new RuntimeException();
+        this.dadosAluno.write(this.listaAluno);
+    }
+
+    public boolean deleteCliente(int posicao) {
         
-        DateFormat formatarDataHoje =  new SimpleDateFormat("dd / MM / yyyy  HH:mm:ss");
-        
-        JOptionPane.showMessageDialog(null, "Data de operacao : "+formatarDataHoje.format(dataHoje));
+        try{
+            listaAluno.removePosicao(posicao);
+            this.save();
+            return true;
+            
+        }catch(Exception ex){
+            return false;   
+        }
     }
 }

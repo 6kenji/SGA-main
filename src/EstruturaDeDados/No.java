@@ -1,6 +1,8 @@
 package EstruturaDeDados;
 
-public class No 
+import java.io.Serializable;
+
+public class No implements Serializable 
 {
 	private No proximo;
 	private No anterior;

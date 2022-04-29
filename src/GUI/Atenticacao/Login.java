@@ -5,7 +5,6 @@
  */
 package GUI.Atenticacao;
 
-import GUI.GestorAluno;
 import GUI.PaginaInicial;
 import javax.swing.*;
 /**

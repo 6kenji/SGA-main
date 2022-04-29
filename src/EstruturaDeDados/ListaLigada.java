@@ -9,18 +9,35 @@ public class ListaLigada implements InterfaceGeral, Serializable
 	private No primeiro;
 	private No ultimo;
 	private int totalElem;
+        
+        public int getPosicao(Object elemento){
+            
+            if(elemento == null)
+                throw new IllegalArgumentException("Elemento nao pode ser nulo.");
+            
+            No atual = this.primeiro;
+		for (int i = 0; i < totalElem; i++) 
+		{
+			if (atual.getElemento().equals(elemento)) 
+			{
+				return i;
+			}
+			atual = atual.getProximo();
+		}
+		return -1;
+        }
 	
 	@Override
 	public void adicionaInicio(Object elemento) 
 	{
-		// TODO Auto-generated method stub
-		No novo = new No(elemento, this.primeiro);
-		this.primeiro = novo;
-		if (this.totalElem == 0)
-		{
-			this.ultimo = this.primeiro;
-		}
-		this.totalElem++;
+            // TODO Auto-generated method stub
+            No novo = new No(elemento, this.primeiro);
+            this.primeiro = novo;
+            if (this.totalElem == 0)
+            {
+		this.ultimo = this.primeiro;
+            }
+            this.totalElem++;
 	}
 
 	@Override
